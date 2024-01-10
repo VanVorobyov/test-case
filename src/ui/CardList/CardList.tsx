@@ -3,21 +3,20 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Card from '@/ui/Card/Card';
+import getData from '@/api/api';
 
 interface CardDataType {
 	id: number;
-	name: string;
 	image: string;
+	title: string;
 }
 
 const CardList: FC = () => {
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<CardDataType[]>([]);
 
 	useEffect(() => {
-		const savedData = localStorage.getItem('data');
-		if (savedData) {
-			setData(JSON.parse(savedData));
-		}
+		// getData.then((data) => setData(data));
+		getData.then((data) => console.log(data));
 	}, []);
 
 	return (
@@ -27,9 +26,9 @@ const CardList: FC = () => {
 					<Card
 						key={card.id}
 						image={card.image}
-						title={card.name}
+						title={card.title}
 						id={card.id}
-					></Card>
+					/>
 				))}
 			</ul>
 			{!data.length && <p>No data found in local storage.</p>}

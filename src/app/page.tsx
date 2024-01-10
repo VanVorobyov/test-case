@@ -9,7 +9,8 @@ const Home = () => {
 			<article className={styles.cardlist}>
 				<h1 className={styles.title}>Тестовое задание</h1>
 				<section className={styles.todolist__section}>
-					<Button></Button>
+					<Button likeCard={true} deleteCard={false}></Button>
+					<Button deleteCard={true} likeCard={false}></Button>
 					<CardList />
 				</section>
 			</article>
