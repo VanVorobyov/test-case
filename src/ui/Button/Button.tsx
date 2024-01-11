@@ -1,35 +1,30 @@
 'use client';
 
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styles from './index.module.scss';
 import HeartIcon from '@/ui/Icons/HeartIcon';
 import HeartFillIcon from '@/ui/Icons/HeartFillIcon';
 import DeleteIcon from '@/ui/Icons/DeleteIcon';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { cardSlice } from '@/store/reducers/CardSlice';
 
 interface ButtonProps {
-	likeCard: boolean;
-	deleteCard: boolean;
+	likeButton?: boolean;
+	deleteButton?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ likeCard, deleteCard }) => {
-	const [isLiked, setIsLiked] = useState(false);
+const Button: FC<ButtonProps> = ({ likeButton, deleteButton }) => {
+	const { isLiked } = useAppSelector((state) => state.cardReducer);
+	const { likeCard } = cardSlice.actions;
+	const dispatch = useAppDispatch();
 
-	const handleIsLiked = () => {
-		setIsLiked((prevState) => !prevState);
-	};
-
-	console.log(isLiked);
+	const handleLikeButtonClick = () => {};
 
 	return (
-		<button
-			className={styles.button}
-			onClick={() => {
-				likeCard && handleIsLiked();
-			}}
-		>
-			{likeCard && !isLiked && <HeartIcon />}
-			{isLiked && <HeartFillIcon />}
-			{deleteCard && <DeleteIcon />}
+		<button className={styles.button} onClick={() => dispatch()}>
+			{!isLiked && likeButton && <HeartIcon />}
+			{deleteButton && <DeleteIcon />}
+			{isLiked && likeButton && <HeartFillIcon />}
 		</button>
 	);
 };

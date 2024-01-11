@@ -1,4 +1,11 @@
 .cardlist {
-	max-width: 600px;
 	width: 100%;
+	max-width: 1066px;
+	padding: 0;
+
+	display: flex;
+	justify-items: center;
+
+	flex-wrap: wrap;
+	gap: 20px;
 }

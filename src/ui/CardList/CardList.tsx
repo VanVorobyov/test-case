@@ -15,8 +15,16 @@ const CardList: FC = () => {
 	const [data, setData] = useState<CardDataType[]>([]);
 
 	useEffect(() => {
-		// getData.then((data) => setData(data));
-		getData.then((data) => console.log(data));
+		const fetchData = async () => {
+			try {
+				const response = await getData;
+				setData(response);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+
+		fetchData();
 	}, []);
 
 	return (
@@ -31,7 +39,7 @@ const CardList: FC = () => {
 					/>
 				))}
 			</ul>
-			{!data.length && <p>No data found in local storage.</p>}
+			{!data.length && <p>No data found.</p>}
 		</>
 	);
 };
