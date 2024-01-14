@@ -1,45 +1,49 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './index.module.scss';
 import Card from '@/ui/Card/Card';
-import getData from '@/api/api';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { fetchCards } from '@/store/reducers/ActionCreators';
 
 interface CardDataType {
 	id: number;
 	image: string;
 	title: string;
+	isLiked: boolean;
 }
 
 const CardList: FC = () => {
-	const [data, setData] = useState<CardDataType[]>([]);
+	const { cards, error, isLoading } = useAppSelector((state) => state.cards);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await getData;
-				setData(response);
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-		};
-
-		fetchData();
+		dispatch(fetchCards());
+		console.log(cards);
 	}, []);
+
+	if (isLoading) {
+		return <h1>Идет загрузка...</h1>;
+	}
+	if (error) {
+		return <h1>{error}</h1>;
+	}
+	console.log(cards);
 
 	return (
 		<>
 			<ul className={styles.cardlist}>
-				{data.map((card: CardDataType) => (
+				{cards.map((card: CardDataType) => (
 					<Card
 						key={card.id}
 						image={card.image}
 						title={card.title}
 						id={card.id}
+						isLiked={card.isLiked}
 					/>
 				))}
 			</ul>
-			{!data.length && <p>No data found.</p>}
+			{!cards.length && <p>No data found.</p>}
 		</>
 	);
 };

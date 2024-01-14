@@ -4,10 +4,7 @@ import React from 'react';
 import styles from '@/app/page.module.scss';
 import CardList from '../ui/CardList/CardList';
 import { Provider } from 'react-redux';
-
-import { setupStore } from '@/store/store';
-
-const store = setupStore();
+import { store } from '@/store/store';
 
 const Home = () => {
 	return (
