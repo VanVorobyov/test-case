@@ -19,7 +19,7 @@ const CardList: FC = () => {
 
 	useEffect(() => {
 		dispatch(fetchCards());
-		console.log(cards);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (isLoading) {
@@ -28,7 +28,6 @@ const CardList: FC = () => {
 	if (error) {
 		return <h1>{error}</h1>;
 	}
-	console.log(cards);
 
 	return (
 		<>

@@ -15,7 +15,6 @@ export const fetchCards = () => async (dispatch: AppDispatch) => {
 			...card,
 			isLiked: false,
 		}));
-		console.log(cardsData);
 
 		dispatch(cardsFetchingSuccess(cardsData));
 	} catch (e: any) {

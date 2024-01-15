@@ -5,6 +5,7 @@ import styles from './index.module.scss';
 import Button from '@/ui/Button/Button';
 import { useAppDispatch } from '@/hooks/redux';
 import { cardSlice } from '@/store/reducers/CardSlice';
+import Image from 'next/image';
 
 interface CardProps {
 	id: number;
@@ -28,7 +29,14 @@ const Card: FC<CardProps> = ({ image, title, id, isLiked }) => {
 	return (
 		<div className={styles.card}>
 			<div className={styles.card__wrapper}>
-				<img src={image} alt={title} className={styles.card__image} />
+				<Image
+					width={150}
+					height={200}
+					priority={true}
+					src={image}
+					alt={title}
+					className={styles.card__image}
+				/>
 			</div>
 			<h3 className={styles.card__title}>{title}</h3>
 			<div className={styles.card__buttons}>
