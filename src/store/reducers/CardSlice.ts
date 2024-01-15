@@ -5,12 +5,14 @@ interface CardState {
 	cards: ICard[];
 	isLoading: boolean;
 	error: string;
+	filteredCards: ICard[];
 }
 
 const initialState: CardState = {
 	cards: [],
 	isLoading: false,
 	error: '',
+	filteredCards: [],
 };
 
 export const cardSlice = createSlice({
@@ -24,6 +26,7 @@ export const cardSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 			state.cards = action.payload;
+			state.filteredCards = action.payload;
 		},
 		cardsFetchingError(state, action: PayloadAction<string>) {
 			state.isLoading = false;
@@ -34,6 +37,7 @@ export const cardSlice = createSlice({
 			const toggledLike = state.cards.find(
 				(card) => card.id === action.payload.id
 			);
+			state.filteredCards = state.cards;
 			if (toggledLike) {
 				toggledLike.isLiked = !toggledLike.isLiked;
 			}
@@ -41,10 +45,15 @@ export const cardSlice = createSlice({
 
 		removeCard(state, action: PayloadAction<{ id: number }>) {
 			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
+			state.filteredCards = state.cards;
 		},
 
-		filterLikedCards(state) {
-			state.cards = state.cards.filter((card) => card.isLiked);
+		filterLikedCards(state, action: PayloadAction<boolean>) {
+			if (action.payload) {
+				state.cards = state.cards.filter((card) => card.isLiked);
+			} else {
+				state.cards = state.filteredCards;
+			}
 		},
 	},
 });
