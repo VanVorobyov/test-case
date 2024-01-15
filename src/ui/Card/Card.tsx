@@ -15,10 +15,14 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ image, title, id, isLiked }) => {
 	const dispatch = useAppDispatch();
-	const { toggleLike } = cardSlice.actions;
+	const { toggleLike, removeCard } = cardSlice.actions;
 
 	const handleLikeButtonClick = () => {
 		dispatch(toggleLike({ id }));
+	};
+
+	const handleDeleteButtonClick = () => {
+		dispatch(removeCard({ id }));
 	};
 
 	return (
@@ -33,7 +37,7 @@ const Card: FC<CardProps> = ({ image, title, id, isLiked }) => {
 					onClick={handleLikeButtonClick}
 					isLiked={isLiked}
 				></Button>
-				<Button deleteButton={true}></Button>
+				<Button deleteButton={true} onClick={handleDeleteButtonClick}></Button>
 			</div>
 		</div>
 	);

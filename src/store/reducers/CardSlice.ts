@@ -38,6 +38,14 @@ export const cardSlice = createSlice({
 				toggledLike.isLiked = !toggledLike.isLiked;
 			}
 		},
+
+		removeCard(state, action: PayloadAction<{ id: number }>) {
+			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
+		},
+
+		filterLikedCards(state) {
+			state.cards = state.cards.filter((card) => card.isLiked);
+		},
 	},
 });
 
@@ -46,5 +54,7 @@ export const {
 	cardsFetching,
 	cardsFetchingSuccess,
 	cardsFetchingError,
+	removeCard,
+	filterLikedCards,
 } = cardSlice.actions;
 export default cardSlice.reducer;
