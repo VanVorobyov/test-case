@@ -23,10 +23,11 @@ const CardList: FC = () => {
 	}, []);
 
 	if (isLoading) {
-		return <h1>Идет загрузка...</h1>;
+		return <h1 className={styles.loading}>Идет загрузка...</h1>;
 	}
+
 	if (error) {
-		return <h1>{error}</h1>;
+		return <h1 className={styles.error}>{error}</h1>;
 	}
 
 	return (
@@ -42,7 +43,6 @@ const CardList: FC = () => {
 					/>
 				))}
 			</ul>
-			{!cards.length && <p>No data found.</p>}
 		</>
 	);
 };

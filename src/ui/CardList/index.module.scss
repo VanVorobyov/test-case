@@ -9,3 +9,12 @@
 	flex-wrap: wrap;
 	gap: 20px;
 }
+
+.loading {
+	text-align: center;
+}
+
+.error {
+	text-align: center;
+	color: darkred;
+}

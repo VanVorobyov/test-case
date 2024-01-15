@@ -2,11 +2,13 @@ import { AppDispatch } from '@/store/store';
 import axios from 'axios';
 import { ICard } from '@/models/ICard';
 import {
+	cardsFetching,
 	cardsFetchingError,
 	cardsFetchingSuccess,
 } from '@/store/reducers/CardSlice';
 
 export const fetchCards = () => async (dispatch: AppDispatch) => {
+	dispatch(cardsFetching());
 	try {
 		const response = await axios.get<ICard[]>(
 			'https://fakestoreapi.com/products'

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import styles from '@/app/page.module.scss';
 import CardList from '../ui/CardList/CardList';
 import { Provider } from 'react-redux';
