@@ -5,14 +5,14 @@ interface CardState {
 	cards: ICard[];
 	isLoading: boolean;
 	error: string;
-	filteredCards: ICard[];
+	originalCards: ICard[];
 }
 
 const initialState: CardState = {
 	cards: [],
 	isLoading: false,
 	error: '',
-	filteredCards: [],
+	originalCards: [],
 };
 
 export const cardSlice = createSlice({
@@ -26,33 +26,52 @@ export const cardSlice = createSlice({
 			state.isLoading = false;
 			state.error = '';
 			state.cards = action.payload;
-			state.filteredCards = action.payload;
+			state.originalCards = action.payload;
 		},
 		cardsFetchingError(state, action: PayloadAction<string>) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
 
-		toggleLike(state, action) {
-			const toggledLike = state.cards.find(
+		toggleLike(state, action: PayloadAction<{ id: number }>) {
+			const originalCard = state.originalCards.find(
 				(card) => card.id === action.payload.id
 			);
-			state.filteredCards = state.cards;
-			if (toggledLike) {
-				toggledLike.isLiked = !toggledLike.isLiked;
+
+			const currentCard = state.cards.find(
+				(card) => card.id === action.payload.id
+			);
+
+			if (originalCard && currentCard) {
+				currentCard.isLiked = !currentCard.isLiked;
+				originalCard.isLiked = currentCard.isLiked;
 			}
 		},
 
 		removeCard(state, action: PayloadAction<{ id: number }>) {
-			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
-			state.filteredCards = state.cards;
+			const originalCard = state.originalCards.find(
+				(card) => card.id === action.payload.id
+			);
+
+			const currentCard = state.cards.find(
+				(card) => card.id === action.payload.id
+			);
+
+			if (originalCard && currentCard) {
+				state.originalCards = state.originalCards.filter(
+					(card) => card.id !== action.payload.id
+				);
+				state.cards = state.cards.filter(
+					(card) => card.id !== action.payload.id
+				);
+			}
 		},
 
 		filterLikedCards(state, action: PayloadAction<boolean>) {
 			if (action.payload) {
 				state.cards = state.cards.filter((card) => card.isLiked);
 			} else {
-				state.cards = state.filteredCards;
+				state.cards = state.originalCards;
 			}
 		},
 	},
